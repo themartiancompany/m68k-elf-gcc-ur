@@ -977,7 +977,7 @@ jobs:
           find \
             "${PWD}" \
             -iname \
-              "*.pkg.tar.*"
+              "*pkg.tar*"
           bash \
             ".github/android-arm32-fix"
       # - name:
@@ -1748,6 +1748,32 @@ jobs:
             -c \
               "cd ${PWD} && _evmfs="false" _git="false" _git_service="github" reallymakepkg -v -u -w '/home/user/${_pkgbase}-build' -- -df --nocheck --skippgpcheck && ls -lsh" - \
             "user"
+      - name:
+          Fix naming issue with architecture.
+        run: |
+          export \
+            _pkgname="$( \
+              _evmfs="false" \
+              _git_service="github" \
+              recipe-get \
+                "PKGBUILD" \
+                "pkgname")" \
+            _pkgver="$( \
+              _evmfs="false" \
+              _git_service="github" \
+              recipe-get \
+                "PKGBUILD" \
+                "pkgver")" \
+            _pkgrel="$( \
+              _evmfs="false" \
+              _git_service="github" \
+              recipe-get \
+                "PKGBUILD" \
+                "pkgrel")" && \
+          mv \
+            "${_pkgname}-${_pkgver}-${_pkgrel}-x86_64pkg.tar.xz" \
+            "${_pkgname}-${_pkgver}-${_pkgrel}-x86_64.pkg.tar.xz" || \
+          true
       # - name:
       #     Installs the package.
       #   run: |
@@ -1784,7 +1810,7 @@ jobs:
         id:
           version
       - name:
-          Upload Arch package.
+          Uploads Arch package.
         uses:
           actions/upload-release-asset@v1
         env:
@@ -2216,6 +2242,31 @@ jobs:
             -df \
             --nocheck \
             --skippgpcheck
+          ls \
+            -lsh
+          export \
+            _pkgname="$( \
+              _evmfs="false" \
+              _git_service="github" \
+              recipe-get \
+                "PKGBUILD" \
+                "pkgname")" \
+            _pkgver="$( \
+              _evmfs="false" \
+              _git_service="github" \
+              recipe-get \
+                "PKGBUILD" \
+                "pkgver")" \
+            _pkgrel="$( \
+              _evmfs="false" \
+              _git_service="github" \
+              recipe-get \
+                "PKGBUILD" \
+                "pkgrel")" && \
+          mv \
+            "${_pkgname}-${_pkgver}-${_pkgrel}-x86_64pkg.tar.xz" \
+            "${_pkgname}-${_pkgver}-${_pkgrel}-x86_64.pkg.tar.xz" || \
+          true
           # _evmfs="false" \
           # _git_service="github" \
           # reallymakepkg \
