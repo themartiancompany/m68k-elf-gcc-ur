@@ -105,7 +105,7 @@ pkgver=15.2.0
 _mpfrver=4.2.2
 _mpcver=1.3.1
 _gmpver=6.3.0
-pkgrel=26
+pkgrel=27
 _pkgdesc=(
   "The GNU Compiler Collection."
   "(${_target})"
