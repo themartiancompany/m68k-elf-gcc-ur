@@ -72,6 +72,27 @@ else
   _libcompiler="gcc-libs"
   _sh="sh"
 fi
+_evmfs_available="$(
+  command \
+    -v \
+    "evmfs" || \
+    true)"
+if [[ ! -v "_evmfs" ]]; then
+  if [[ "${_evmfs_available}" != "" ]]; then
+    _evmfs="true"
+  elif [[ "${_evmfs_available}" == "" ]]; then
+    _evmfs="false"
+  fi
+fi
+if [[ ! -v "_git" ]]; then
+  _git="false"
+fi
+if [[ ! -v "_offline" ]]; then
+  _offline="false"
+fi
+if [[ ! -v "_git_service" ]]; then
+  _git_service="github"
+fi
 _archive_format="tar.xz"
 _target=m68k-elf
 _target_cpu=m68000
