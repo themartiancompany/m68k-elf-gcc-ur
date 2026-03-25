@@ -105,7 +105,7 @@ pkgver=15.2.0
 _mpfrver=4.2.2
 _mpcver=1.3.1
 _gmpver=6.3.0
-pkgrel=24
+pkgrel=25
 _pkgdesc=(
   "The GNU Compiler Collection."
   "(${_target})"
@@ -163,6 +163,12 @@ _tarname="${_pkg}-${pkgver}"
 _tarfile="${_tarname}.${_archive_format}"
 _sum="438fd996826b0c82485a29da03a72d71d6e3541a83ec702df4271f6fe025d24e"
 _sig_sum="df837ba60ef8045d818b0bce190c00a9aac87e3b3e6dba9f04cf6d2f061ba239"
+_gmp_sum="a3c2b80201b89e68616f4ad30bc66aee4927c3ce50e33929ca819d5c43538898"
+_gmp_sig_sum="76b1fbc14da80a9be37dc32f1cbef899f3dc9f64fcb2c7d2f5bb9c22f503d5ef"
+_mpc_sum="ab642492f5cf882b74aa0cb730cd410a81edcdbec895183ce930e706c1c759b8"
+_mpc_sig_sum="105a84b7faf4e426d01455f8019f2d2cbee8472b9a5bd1f8400a61193ad45366"
+_mpfr_sum="b67ba0383ef7e8a8563734e2e889ef5ec3c3b898a01d00fa0a6869ad81c6ce01"
+_mpfr_sig_sum="d41ea9c01b7d0699f38a6feb305da6762454a0117f436e66dcd9b45117f99243"
 # Dvorak
 _evmfs_ns="0x87003Bd6C074C713783df04f36517451fF34CBEf"
 _evmfs_network="100"
@@ -187,21 +193,21 @@ _src="${_tarfile}::${_uri}"
 source+=(
   "${_src}"
   "https://ftp.gnu.org/gnu/${_pkg}/${_tarname}/${_tarfile}.sig"
-  "https://ftp.gnu.org/gnu/mpfr/mpfr-${_mpfrver}.tar.gz"
-  "https://ftp.gnu.org/gnu/mpfr/mpfr-${_mpfrver}.tar.gz.sig"
+  "https://ftp.gnu.org/gnu/mpfr/mpfr-${_mpfrver}.${_archive_format}"
+  "https://ftp.gnu.org/gnu/mpfr/mpfr-${_mpfrver}.${_archive_format}.sig"
   "https://ftp.gnu.org/gnu/mpc/mpc-${_mpcver}.tar.gz"
   "https://ftp.gnu.org/gnu/mpc/mpc-${_mpcver}.tar.gz.sig"
-  "https://ftp.gnu.org/gnu/gmp/gmp-${_gmpver}.tar.gz"
-  "https://ftp.gnu.org/gnu/gmp/gmp-${_gmpver}.tar.gz.sig"
+  "https://ftp.gnu.org/gnu/gmp/gmp-${_gmpver}.${_archive_format}"
+  "https://ftp.gnu.org/gnu/gmp/gmp-${_gmpver}.${_archive_format}.sig"
 )
 sha256sums+=(
   "${_sum}"
   "SKIP"
+  "${_mpfr_sum}"
   "SKIP"
+  "${_mpc_sum}"
   "SKIP"
-  "SKIP"
-  "SKIP"
-  "SKIP"
+  "${_gmp_sum}"
   "SKIP"
 )
 validpgpkeys=(
