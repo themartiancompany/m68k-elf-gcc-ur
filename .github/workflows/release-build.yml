@@ -732,6 +732,20 @@ jobs:
                   "PKGBUILD" \
                   "pkgname")"
       - name:
+          Installs latest Crash Bash Library.
+        run: |
+          git \
+            clone \
+              "https://github.com/themartiancompany/crash-bash"
+          cd \
+            "crash-bash"
+          mkdir \
+            -p \
+            "/usr/lib/libcrash-bash"
+          make \
+            PREFIX="/usr" \
+            install
+      - name:
           Installs latest Reallymakepkg.
         run: |
           /entrypoint.sh \
@@ -767,6 +781,23 @@ jobs:
               -vDm644 \
               "${HOME}/reallymakepkg-src/configs/makepkg.android.conf" \
               "/data/data/com.termux/files/usr/etc/reallymakepkg/makepkg.android.conf"
+      - name:
+          Installs latest gl-dl.
+        run: |
+          /entrypoint.sh \
+            git \
+              clone \
+                --single-branch \
+                --depth=1 \
+                "https://github.com/themartiancompany/gl-dl" \
+                "${HOME}/gl-dl-src" || \
+            true
+          cd \
+            "${HOME}/gl-dl-src"
+          /entrypoint.sh \
+            make \
+              PREFIX="/usr" \
+              install-scripts
       - name:
           Installs latest EVM GNUPG.
         run: |
@@ -827,6 +858,9 @@ jobs:
               install-fur
       - name:
           Installs build dependencies.
+        env:
+          GH_TOKEN:
+            ${{ secrets.GITHUB_TOKEN }}
         run: |
           _evmfs="false" \
             recipe-get \
@@ -837,7 +871,7 @@ jobs:
               "PKGBUILD" \
               "makedepends" > \
             "${HOME}/makedepends"
-          for _pkg in $(cat "${HOME}/makedepends"); do \
+          for _pkg in "jq" $(cat "${HOME}/makedepends"); do \
             _depend_name="$( \
               /entrypoint.sh \
                 version-split \
@@ -848,7 +882,6 @@ jobs:
               pacman \
                 -S \
                   --noconfirm \
-                  jq \
                   "${_depend_name}" \
                   --overwrite="*" || \
                 true
@@ -874,10 +907,12 @@ jobs:
       - name:
           Builds the Android package.
         run: |
-          export \
-            _arch="$( \
-              uname \
-                -m)"
+          /entrypoint.sh \
+            recipe-get \
+              -v \
+              "PKGBUILD" \
+               "pkgbase" || \
+          true
           export \
             _pkgbase="$( \
               /entrypoint.sh \
@@ -1089,7 +1124,8 @@ jobs:
             "python-docutils" \
             "python-pip" \
             "python-build" \
-            "tree"
+            "tree" \
+            "unzip"
       - uses:
           actions/checkout@v4.2.2
       - name:
@@ -1488,6 +1524,20 @@ jobs:
             "user:user" \
             "${PWD}"
       - name:
+          Installs latest Crash Bash Library.
+        run: |
+          git \
+            clone \
+              "https://github.com/themartiancompany/crash-bash"
+          cd \
+            "crash-bash"
+          mkdir \
+            -p \
+            "/usr/lib/libcrash-bash"
+          make \
+            PREFIX="/usr" \
+            install
+      - name:
           Installs latest Reallymakepkg.
         run: |
           pacman \
@@ -1542,6 +1592,21 @@ jobs:
             PREFIX="/usr" \
             install-scripts
       - name:
+          Installs latest gl-dl.
+        run: |
+          git \
+            clone \
+              --single-branch \
+              --depth=1 \
+              "https://github.com/themartiancompany/gl-dl" \
+              "${HOME}/gl-dl-src" || \
+          true
+          cd \
+            "${HOME}/gl-dl-src"
+          make \
+            PREFIX="/usr" \
+            install-scripts
+      - name:
           Installs latest Gur.
         run: |
           git \
@@ -1590,6 +1655,9 @@ jobs:
                 "pkgname")"
       - name:
           Installs build dependencies.
+        env:
+          GH_TOKEN:
+            ${{ secrets.GITHUB_TOKEN }}
         run: |
           ls
           _evmfs="false" \
@@ -1663,19 +1731,19 @@ jobs:
       - name:
           Builds the Arch package.
         run: |
-          export \
-            _pkgbase="$( \
-              _evmfs="false" \
-              _git_service="github" \
-              recipe-get \
-                "PKGBUILD" \
-                "pkgbase")"
           _evmfs="false" \
           _git_service="github" \
           recipe-get \
             -v \
             "PKGBUILD" \
             "pkgbase"
+          export \
+            _pkgbase="$( \
+              _evmfs="false" \
+              _git_service="github" \
+              recipe-get \
+                "PKGBUILD" \
+                "pkgbase")" && \
           su \
             -c \
               "cd ${PWD} && _evmfs="false" _git="false" _git_service="github" reallymakepkg -v -u -w '/home/user/${_pkgbase}-build' -- -df --nocheck --skippgpcheck && ls -lsh" - \
@@ -1767,6 +1835,7 @@ jobs:
             mingw-w64-${{ matrix.env }}-gcc
             mingw-w64-${{ matrix.env }}-nodejs
             python-docutils
+            unzip
       - name:
           Upgrade Arch environment.
         run: |
@@ -1893,6 +1962,36 @@ jobs:
             -vDm644 \
             "${HOME}/reallymakepkg-src/configs/makepkg.gnu.conf" \
             "/etc/reallymakepkg/makepkg.gnu.conf"
+      - name:
+          Installs latest EVM GNUPG.
+        run: |
+          git \
+            clone \
+              --single-branch \
+              --depth=1 \
+              "https://github.com/themartiancompany/evm-gnupg" \
+              "${HOME}/evm-gnupg-src" || \
+          true
+          cd \
+            "${HOME}/evm-gnupg-src"
+          make \
+            PREFIX="/usr" \
+            install-scripts
+      - name:
+          Installs latest gl-dl.
+        run: |
+          git \
+            clone \
+              --single-branch \
+              --depth=1 \
+              "https://github.com/themartiancompany/gl-dl" \
+              "${HOME}/gl-dl-src" || \
+          true
+          cd \
+            "${HOME}/gl-dl-src"
+          make \
+            PREFIX="/usr" \
+            install-scripts
       - name:
           Installs latest Gur.
         run: |
