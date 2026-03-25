@@ -187,12 +187,12 @@ _src="${_tarfile}::${_uri}"
 source+=(
   "${_src}"
   "https://ftp.gnu.org/gnu/${_pkg}/${_tarname}/${_tarfile}.sig"
-  "https://ftp.gnu.org/gnu/mpfr/mpfr-${_mpfrver}.${_archive_format}"
-  "https://ftp.gnu.org/gnu/mpfr/mpfr-${_mpfrver}.${_archive_format}.sig"
-  "https://ftp.gnu.org/gnu/mpc/mpc-${_mpcver}.${_archive_format}"
-  "https://ftp.gnu.org/gnu/mpc/mpc-${_mpcver}.${_archive_format}.sig"
-  "https://ftp.gnu.org/gnu/gmp/gmp-${_gmpver}.${_archive_format}"
-  "https://ftp.gnu.org/gnu/gmp/gmp-${_gmpver}.${_archive_format}.sig"
+  "https://ftp.gnu.org/gnu/mpfr/mpfr-${_mpfrver}.tar.gz"
+  "https://ftp.gnu.org/gnu/mpfr/mpfr-${_mpfrver}.tar.gz.sig"
+  "https://ftp.gnu.org/gnu/mpc/mpc-${_mpcver}.tar.gz"
+  "https://ftp.gnu.org/gnu/mpc/mpc-${_mpcver}.tar.gz.sig"
+  "https://ftp.gnu.org/gnu/gmp/gmp-${_gmpver}.tar.gz"
+  "https://ftp.gnu.org/gnu/gmp/gmp-${_gmpver}.tar.gz.sig"
 )
 sha256sums+=(
   "${_sum}"
