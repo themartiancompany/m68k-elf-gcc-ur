@@ -105,7 +105,7 @@ pkgver=15.2.0
 _mpfrver=4.2.2
 _mpcver=1.3.1
 _gmpver=6.3.0
-pkgrel=27
+pkgrel=28
 _pkgdesc=(
   "The GNU Compiler Collection."
   "(${_target})"
@@ -280,7 +280,14 @@ build() {
 
 package_m68k-elf-gcc() {
   local \
-    _make_opts=()
+    _make_opts=() \
+    _rm_targets=()
+  _rm_targets+=(
+    "${pkgdir}/usr/lib/libcc1.so"
+    "${pkgdir}/usr/lib/libcc1.so.0"
+    "${pkgdir}/usr/lib/libcc1.so.0.0.0"
+    "${pkgdir}/usr/share"
+  )
   _make_opts+=(
     DESTDIR="${pkgdir}"
   )
@@ -292,11 +299,8 @@ package_m68k-elf-gcc() {
   # Remove unwanted files
   rm \
     -rf \
-    "${pkgdir}/usr/share"
-  rm \
-    "${pkgdir}/usr/lib/libcc1.so" \
-    "${pkgdir}/usr/lib/libcc1.so.0"
-    "${pkgdir}/usr/lib/libcc1.so.0.0.0"
+    "${_rm_targets[@]}" || \
+  true
   # Strip it manually
   strip \
     "${pkgdir}/usr/bin/"* \
